@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
         const webhookEvent = req.body;
         console.log("Received Clerk Webhook Event:", webhookEvent);
         
-        // Make sure the event is what you expect, for example, a 'user.created' event
+        // Make sure the event is what you expect
         if (webhookEvent.type === 'user.created') {
             const user = webhookEvent.data;
             const id = user.id;

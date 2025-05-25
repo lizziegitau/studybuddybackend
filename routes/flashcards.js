@@ -247,7 +247,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 // Get all flashcards in a deck for a user
 router.get('/:userId/:deckId', async (req, res) => {
   const { userId, deckId } = req.params;

@@ -11,9 +11,9 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'Missing required fields.' });
   }
 
-  const checkQuery = 'SELECT * FROM studyGoal WHERE userId = ?';
-  const insertQuery = 'INSERT INTO studyGoal (userId, dailyGoalMinutes) VALUES (?, ?)';
-  const updateQuery = 'UPDATE studyGoal SET dailyGoalMinutes = ? WHERE userId = ?';
+  const checkQuery = 'SELECT * FROM studygoal WHERE userId = ?';
+  const insertQuery = 'INSERT INTO studygoal (userId, dailyGoalMinutes) VALUES (?, ?)';
+  const updateQuery = 'UPDATE studygoal SET dailyGoalMinutes = ? WHERE userId = ?';
 
   try {
     const [existing] = await db.query(checkQuery, [userId]);
@@ -41,7 +41,7 @@ router.get('/:userId', async (req, res) => {
 
   try {
     const [rows] = await db.query(
-      'SELECT * FROM studyGoal WHERE userId = ?',
+      'SELECT * FROM studygoal WHERE userId = ?',
       [userId]
     );
 

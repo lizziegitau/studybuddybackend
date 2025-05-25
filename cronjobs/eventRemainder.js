@@ -9,7 +9,7 @@ async function checkEvents() {
 
   try {
     const [events] = await db.execute(
-      `SELECT e.*, u.email FROM plannerEvent e JOIN user u ON e.userId = u.userId WHERE e.eventDate BETWEEN ? AND ?`,
+      `SELECT e.*, u.email FROM plannerevent e JOIN user u ON e.userId = u.userId WHERE e.eventDate BETWEEN ? AND ?`,
       [now.format('YYYY-MM-DD'), twentyFourHoursLater.format('YYYY-MM-DD')]
     );
 
