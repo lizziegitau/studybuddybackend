@@ -7,18 +7,10 @@ const app = express();
 dotenv.config();
 
 const port = process.env.PORT || 5000;
+const frontend_url = process.env.FRONTEND_URL
 
 app.use(bodyParser.json());
-
-app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    process.env.FRONTEND_URL
-  ].filter(Boolean),
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors({ origin: `${frontend_url}`, credentials: true }));
 
 const taskRoutes = require('./routes/tasks');
 const deckRoutes = require('./routes/decks');

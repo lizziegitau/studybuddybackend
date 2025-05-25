@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     }
   
     const query = `
-      INSERT INTO plannerevent (userId, eventTitle, eventDate, startTime, endTime, eventType)
+      INSERT INTO plannerEvent (userId, eventTitle, eventDate, startTime, endTime, eventType)
       VALUES (?, ?, ?, ?, ?, ?)
     `;
   
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
       const insertedEventId = result.insertId;
 
       const [rows] = await db.query(
-        `SELECT * FROM plannerevent WHERE eventId = ?`,
+        `SELECT * FROM plannerEvent WHERE eventId = ?`,
         [insertedEventId]
       );
       res.status(201).json(rows[0]);
@@ -37,7 +37,7 @@ router.get('/:userId', async (req, res) => {
     const userId = req.params.userId;
     try {
       const [events] = await db.execute(
-        'SELECT * FROM plannerevent WHERE userId = ? ORDER BY eventDate ASC',
+        'SELECT * FROM plannerEvent WHERE userId = ? ORDER BY eventDate ASC',
         [userId]
       );
       res.json(events);
@@ -58,7 +58,7 @@ router.put('/:eventId', async (req, res) => {
   try {
     // First check if the event exists
     const [existingEvent] = await db.query(
-      'SELECT * FROM plannerevent WHERE eventId = ?',
+      'SELECT * FROM plannerEvent WHERE eventId = ?',
       [eventId]
     );
     
@@ -99,7 +99,7 @@ router.put('/:eventId', async (req, res) => {
     queryParams.push(eventId);
     
     const updateQuery = `
-      UPDATE plannerevent
+      UPDATE plannerEvent
       SET ${updateFields.join(', ')}
       WHERE eventId = ?
     `;
@@ -108,7 +108,7 @@ router.put('/:eventId', async (req, res) => {
     
     // Fetch the updated event
     const [updatedEvent] = await db.query(
-      'SELECT * FROM plannerevent WHERE eventId = ?',
+      'SELECT * FROM plannerEvent WHERE eventId = ?',
       [eventId]
     );
     
@@ -126,7 +126,7 @@ router.delete('/:eventId', async (req, res) => {
   try {
     // First check if the event exists
     const [existingEvent] = await db.query(
-      'SELECT * FROM plannerevent WHERE eventId = ?',
+      'SELECT * FROM plannerEvent WHERE eventId = ?',
       [eventId]
     );
     
@@ -136,7 +136,7 @@ router.delete('/:eventId', async (req, res) => {
     
     // Delete the event
     await db.query(
-      'DELETE FROM plannerevent WHERE eventId = ?',
+      'DELETE FROM plannerEvent WHERE eventId = ?',
       [eventId]
     );
     

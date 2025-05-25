@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
   }
   
-  const query = 'INSERT INTO studysession (userId, sessionDate, sessionDuration, sessionTaskIds) VALUES (?, ?, ?, ?)';
+  const query = 'INSERT INTO studySession (userId, sessionDate, sessionDuration, sessionTaskIds) VALUES (?, ?, ?, ?)';
 
   try {
       const [result] = await db.query(query, [userId, sessionDate, sessionDuration, JSON.stringify(sessionTaskIds)]);
@@ -37,7 +37,7 @@ router.get('/:userId', async (req, res) => {
 
   try {
     const [rows] = await db.execute(
-      `SELECT * FROM studysession WHERE userId = ? ORDER BY sessionDate DESC`,
+      `SELECT * FROM studySession WHERE userId = ? ORDER BY sessionDate DESC`,
       [userId]
     );
 
@@ -55,7 +55,7 @@ router.get('/:sessionId/tasks', async (req, res) => {
   try {
     // First get the session to extract the taskIds
     const [sessions] = await db.query(
-      `SELECT sessionTaskIds FROM studysession WHERE sessionId = ?`,
+      `SELECT sessionTaskIds FROM studySession WHERE sessionId = ?`,
       [sessionId]
     );
     
@@ -126,7 +126,7 @@ router.delete('/:sessionId/task/:taskId', async (req, res) => {
 
   try {
     const [sessions] = await db.query(
-      `SELECT sessionTaskIds FROM studysession WHERE sessionId = ?`,
+      `SELECT sessionTaskIds FROM studySession WHERE sessionId = ?`,
       [sessionId]
     );
 
@@ -153,7 +153,7 @@ router.delete('/:sessionId/task/:taskId', async (req, res) => {
     const newTaskIds = taskIds.filter(id => String(id) !== String(taskId));
 
     const [updateResult] = await db.execute(
-      `UPDATE studysession SET sessionTaskIds = ? WHERE sessionId = ?`,
+      `UPDATE studySession SET sessionTaskIds = ? WHERE sessionId = ?`,
       [JSON.stringify(newTaskIds), sessionId]
     );
 
