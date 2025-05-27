@@ -55,7 +55,6 @@ router.put('/:deckId', async (req, res) => {
   }
   
   try {
-      // First check if the deck exists
       const [deck] = await db.execute(
           'SELECT * FROM deck WHERE deckId = ?',
           [deckId]
@@ -65,13 +64,11 @@ router.put('/:deckId', async (req, res) => {
           return res.status(404).json({ error: 'Deck not found' });
       }
       
-      // Update the deck
       await db.execute(
           'UPDATE deck SET deckName = ? WHERE deckId = ?',
           [deckName, deckId]
       );
       
-      // Fetch and return the updated deck
       const [updatedDeck] = await db.execute(
           'SELECT * FROM deck WHERE deckId = ?',
           [deckId]
@@ -89,7 +86,6 @@ router.delete('/:deckId', async (req, res) => {
   const deckId = req.params.deckId;
   
   try {
-      // First check if the deck exists
       const [deck] = await db.execute(
           'SELECT * FROM deck WHERE deckId = ?',
           [deckId]
@@ -99,7 +95,6 @@ router.delete('/:deckId', async (req, res) => {
           return res.status(404).json({ error: 'Deck not found' });
       }
       
-      // Delete the deck
       await db.execute(
           'DELETE FROM deck WHERE deckId = ?',
           [deckId]
